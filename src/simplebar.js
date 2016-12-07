@@ -51,24 +51,24 @@ export default class SimpleBar {
             // Mutation observer to observe dynamically added elements
             this.observer = new MutationObserver(mutations => {
                 mutations.forEach(mutation => {
-                    Array.from(mutation.addedNodes).forEach(addedNode => {
+                    [...mutation.addedNodes].forEach(addedNode => {
                         if (addedNode.nodeType === 1) {
                             if (addedNode.hasAttribute('data-simplebar')) {
                                 new SimpleBar(addedNode, SimpleBar.getElOptions(addedNode));
                             } else {
-                                addedNode.querySelectorAll('[data-simplebar]').forEach(el => {
+                                [...addedNode.querySelectorAll('[data-simplebar]')].forEach(el => {
                                     new SimpleBar(el, SimpleBar.getElOptions(el));
                                 });
                             }
                         }
                     });
 
-                    Array.from(mutation.removedNodes).forEach(removedNode => {
+                    [...mutation.removedNodes].forEach(removedNode => {
                         if (removedNode.nodeType === 1) {
                             if (removedNode.hasAttribute('data-simplebar')) {
                                 removedNode.SimpleBar && removedNode.SimpleBar.unMount();
                             } else {
-                                removedNode.querySelectorAll('[data-simplebar]').forEach(el => {
+                                [...removedNode.querySelectorAll('[data-simplebar]')].forEach(el => {
                                     el.SimpleBar && el.SimpleBar.unMount();
                                 });
                             }
@@ -82,7 +82,7 @@ export default class SimpleBar {
 
         // Instantiate elements already present on the page
         document.addEventListener('DOMContentLoaded', () => {
-            Array.from(document.querySelectorAll('[data-simplebar]')).forEach(el => {
+            [...document.querySelectorAll('[data-simplebar]')].forEach(el => {
                 new SimpleBar(el, SimpleBar.getElOptions(el));
             });
         });
